@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -39,6 +40,19 @@ namespace XAML_Path_Markup_Editor
             }
             catch (Exception)
             { }
+        }
+
+        private void TheCanvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Coordinates.Text = Mouse.GetPosition(TheCanvas).ToString();
+        }
+
+        private void TheCanvas_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var insertText = " L " + Mouse.GetPosition(TheCanvas).ToString();
+            var selectionIndex = XAMLCodeBox.SelectionStart;
+            XAMLCodeBox.Text = XAMLCodeBox.Text.Insert(selectionIndex, insertText);
+            XAMLCodeBox.SelectionStart = selectionIndex + insertText.Length;
         }
     }
 }

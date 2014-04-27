@@ -11,8 +11,9 @@
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
         
-        <Canvas Grid.Row="0" Name="TheCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Canvas Grid.Row="0" Name="TheCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseMove="TheCanvas_MouseMove" MouseDown="TheCanvas_MouseDown" Background="White">
         </Canvas>
+        <TextBox Grid.Row="0" Name="Coordinates" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="50" Height="20" />
         <TextBlock Grid.Row="1" Text="Enter your XAML Path Markup Code here:" VerticalAlignment="Bottom" />
         <TextBox Grid.Row="2" Name="XAMLCodeBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextChanged="XAMLCodeBox_TextChanged" TextWrapping="Wrap">
             F1 M 0,0 L 100,100 L 200,0 Z
