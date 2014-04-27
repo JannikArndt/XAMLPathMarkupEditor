@@ -1,0 +1,35 @@
+﻿<Window x:Class="XAML_Path_Markup_Editor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="XAML Path Markup Editor" Height="500" Width="600">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        
+        <Canvas Grid.Row="0" Name="TheCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        </Canvas>
+        <TextBlock Grid.Row="1" Text="Enter your XAML Path Markup Code here:" VerticalAlignment="Bottom" />
+        <TextBox Grid.Row="2" Name="XAMLCodeBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextChanged="XAMLCodeBox_TextChanged" TextWrapping="Wrap">
+            F1 M 0,0 L 100,100 L 200,0 Z
+        </TextBox>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center">
+            <TextBlock Text="ScaleTransform: ScaleX = " />
+            <TextBox Name="SetScaleX" Width="30" Height="20" TextChanged="XAMLCodeBox_TextChanged" Text="1"  />
+            <TextBlock Text=", ScaleY = " />
+            <TextBox Name="SetScaleY" Width="30" Height="20" TextChanged="XAMLCodeBox_TextChanged" Text="1" />
+        </StackPanel>
+        <StackPanel Grid.Row="4" Orientation="Horizontal" VerticalAlignment="Center">
+            <TextBlock Text="RotateTransform: Angle = " />
+            <TextBox Name="SetRotateAngle" Width="30" Height="20" TextChanged="XAMLCodeBox_TextChanged" Text="0"  />
+            <TextBlock Text=", CenterX = " />
+            <TextBox Name="SetCenterX" Width="30" Height="20" TextChanged="XAMLCodeBox_TextChanged" Text="1" />
+            <TextBlock Text=", CenterY = " />
+            <TextBox Name="SetCenterY" Width="30" Height="20" TextChanged="XAMLCodeBox_TextChanged" Text="1" />
+        </StackPanel>
+    </Grid>
+</Window>
