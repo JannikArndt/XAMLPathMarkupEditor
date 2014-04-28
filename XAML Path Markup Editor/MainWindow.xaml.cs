@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace XAML_Path_Markup_Editor
@@ -26,7 +28,7 @@ namespace XAML_Path_Markup_Editor
                 Transformations.Children.Add(new ScaleTransform(double.Parse(SetScaleX.Text), double.Parse(SetScaleY.Text)));
                 Transformations.Children.Add(new RotateTransform(double.Parse(SetRotateAngle.Text), double.Parse(SetCenterX.Text), double.Parse(SetCenterY.Text)));
 
-                Path Drawing = new Path
+                var Drawing = new System.Windows.Shapes.Path
                 {
                     RenderTransform = Transformations,
                     Fill = Brushes.Black,
@@ -89,6 +91,50 @@ namespace XAML_Path_Markup_Editor
                     Parts[i] = Number.ToString();
                 }
             XAMLCodeBox.Text = String.Join("", Parts);
+        }
+
+        private void Export(object sender, RoutedEventArgs e)
+        {
+            var OriginalSize = new Size(TheCanvas.ActualWidth, TheCanvas.ActualHeight);
+            TheCanvas.Width = (TheCanvas.Children[0] as Path).ActualWidth;
+            TheCanvas.Height = (TheCanvas.Children[0] as Path).ActualHeight;
+            TheCanvas.HorizontalAlignment = HorizontalAlignment.Left;
+            TheCanvas.VerticalAlignment = VerticalAlignment.Top;
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                ValidateNames = true,
+                AddExtension = true,
+                FileName = "Drawing.png",
+                Filter = "PNG Image|*.png",
+                FilterIndex = 1,
+                RestoreDirectory = true,
+                OverwritePrompt = true
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string filetype = System.IO.Path.GetExtension(saveFileDialog.FileName);
+                string filename = saveFileDialog.FileName;
+                string filePath = System.IO.Path.GetDirectoryName(saveFileDialog.FileName);
+
+                RenderTargetBitmap rtb = new RenderTargetBitmap((int)TheCanvas.RenderSize.Width,
+                    (int)TheCanvas.RenderSize.Height, 96d, 96d, System.Windows.Media.PixelFormats.Default);
+                rtb.Render(TheCanvas);
+
+                BitmapEncoder pngEncoder = new PngBitmapEncoder();
+                pngEncoder.Frames.Add(BitmapFrame.Create(rtb));
+
+                using (var fs = System.IO.File.OpenWrite(filename))
+                {
+                    pngEncoder.Save(fs);
+                }
+            }
+
+            TheCanvas.Width = OriginalSize.Width;
+            TheCanvas.Height = OriginalSize.Height;
+            TheCanvas.HorizontalAlignment = HorizontalAlignment.Stretch;
+            TheCanvas.VerticalAlignment = VerticalAlignment.Stretch;
         }
     }
 }

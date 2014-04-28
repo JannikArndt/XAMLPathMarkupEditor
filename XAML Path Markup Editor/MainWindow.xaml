@@ -13,7 +13,10 @@
 
         <Canvas Grid.Row="0" Name="TheCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseMove="TheCanvas_MouseMove" MouseDown="TheCanvas_MouseDown" Background="White">
         </Canvas>
-        <TextBox Grid.Row="0" Name="Coordinates" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="50" Height="20" />
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+        <TextBox  Name="Coordinates" Width="50" Height="20" />
+            <Button Width="80" Height="20" Content="Export" Click="Export" />
+        </StackPanel>
         <TextBlock Grid.Row="1" Text="Enter your XAML Path Markup Code here:" VerticalAlignment="Bottom" />
         <TextBox Name="XAMLCodeBox" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextChanged="XAMLCodeBox_TextChanged">
             F1 M 0,0 L 100,100 L 200,0 Z
