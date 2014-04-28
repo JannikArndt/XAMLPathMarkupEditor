@@ -9,5 +9,7 @@ Functionality:
 - Instantly tries to visualize the Path Markup
 - Supports ScaleTransform
 - Supports RotateTransform
+- Format Code (adds spaces and linebreaks)
+- Round values of points
 
 Have a look at the syntax [here](http://msdn.microsoft.com/en-us/library/ms752293.aspx).
