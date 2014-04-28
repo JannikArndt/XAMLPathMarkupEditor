@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -49,10 +50,45 @@ namespace XAML_Path_Markup_Editor
 
         private void TheCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var insertText = " L " + Mouse.GetPosition(TheCanvas).ToString();
+            String insertText;
+            if (XAMLCodeBox.Text == "")
+                insertText = "M " + Mouse.GetPosition(TheCanvas).ToString() + " Z";
+            else
+                insertText = " L " + Mouse.GetPosition(TheCanvas).ToString();
             var selectionIndex = XAMLCodeBox.SelectionStart;
             XAMLCodeBox.Text = XAMLCodeBox.Text.Insert(selectionIndex, insertText);
             XAMLCodeBox.SelectionStart = selectionIndex + insertText.Length;
+        }
+
+        private void FormatCode(object sender, RoutedEventArgs e)
+        {
+            var Parts = XAMLCodeBox.Text.Split(new string[] { "M" }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < Parts.Length; i++)
+                Parts[i] = Parts[i].Trim(new char[] { '\n', ' ' });
+            XAMLCodeBox.Text = String.Join("\nM ", Parts);
+
+            // Fix for removing leading Ms
+            int n;
+            if (int.TryParse(XAMLCodeBox.Text.Substring(0, 1), out n))
+                XAMLCodeBox.Text = "M " + XAMLCodeBox.Text;
+
+            Parts = Regex.Split(XAMLCodeBox.Text, "(L)|(C)|(Z)");
+            for (int i = 0; i < Parts.Length; i++)
+                Parts[i] = Parts[i].Trim();
+            XAMLCodeBox.Text = String.Join(" ", Parts);
+        }
+
+        private void RoundValues(object sender, RoutedEventArgs e)
+        {
+            var Parts = Regex.Split(XAMLCodeBox.Text, "(M)|(L)|(C)|(Z)|( )|(,)");
+            for (int i = 0; i < Parts.Length; i++)
+                if (Parts[i].Contains("."))
+                {
+                    var Number = double.Parse(Parts[i]);
+                    Number = Math.Round(Number);
+                    Parts[i] = Number.ToString();
+                }
+            XAMLCodeBox.Text = String.Join("", Parts);
         }
     }
 }
