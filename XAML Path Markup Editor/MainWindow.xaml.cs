@@ -93,6 +93,32 @@ namespace XAML_Path_Markup_Editor
             XAMLCodeBox.Text = String.Join("", Parts);
         }
 
+        private void Print(object sender, RoutedEventArgs e)
+        {
+            var OriginalSize = new Size(TheCanvas.ActualWidth, TheCanvas.ActualHeight);
+            TheCanvas.Width = (TheCanvas.Children[0] as Path).ActualWidth;
+            TheCanvas.Height = (TheCanvas.Children[0] as Path).ActualHeight;
+            TheCanvas.HorizontalAlignment = HorizontalAlignment.Left;
+            TheCanvas.VerticalAlignment = VerticalAlignment.Top;
+
+            try
+            {
+                PrintDialog dialog = new PrintDialog();
+
+                if (dialog.ShowDialog() != true)
+                    return;
+                dialog.PrintVisual(TheCanvas, "Drawing");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error while printing", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            TheCanvas.Width = OriginalSize.Width;
+            TheCanvas.Height = OriginalSize.Height;
+            TheCanvas.HorizontalAlignment = HorizontalAlignment.Stretch;
+            TheCanvas.VerticalAlignment = VerticalAlignment.Stretch;
+        }
         private void Export(object sender, RoutedEventArgs e)
         {
             var OriginalSize = new Size(TheCanvas.ActualWidth, TheCanvas.ActualHeight);
